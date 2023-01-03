@@ -1,4 +1,4 @@
-package com.github.maiflai
+package com.github.ysohda
 
 import org.gradle.api.Plugin
 import org.gradle.api.Project

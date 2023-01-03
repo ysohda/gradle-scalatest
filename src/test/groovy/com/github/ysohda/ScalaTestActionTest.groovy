@@ -1,4 +1,4 @@
-package com.github.maiflai
+package com.github.ysohda
 
 import org.gradle.api.Project
 import org.gradle.api.Task
@@ -12,7 +12,7 @@ import org.hamcrest.Matcher
 import org.hamcrest.TypeSafeMatcher
 import org.junit.Test
 
-import static com.github.maiflai.ScalaTestAction.other
+import static com.github.ysohda.ScalaTestAction.other
 import static org.hamcrest.CoreMatchers.*
 import static org.hamcrest.core.CombinableMatcher.both
 import static org.hamcrest.core.Is.is

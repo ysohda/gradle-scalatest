@@ -1,4 +1,4 @@
-package com.github.maiflai
+package com.github.ysohda
 
 import org.gradle.tooling.BuildLauncher
 import org.gradle.tooling.GradleConnector

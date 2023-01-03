@@ -1,4 +1,4 @@
-package com.github.maiflai
+package com.github.ysohda
 
 import org.gradle.api.Action
 import org.gradle.api.tasks.testing.Test

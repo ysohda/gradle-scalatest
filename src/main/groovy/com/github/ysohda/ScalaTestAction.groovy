@@ -1,4 +1,4 @@
-package com.github.maiflai
+package com.github.ysohda
 
 import groovy.transform.Immutable
 import org.gradle.api.Action

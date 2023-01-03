@@ -1,27 +1,17 @@
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-    dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.12.0"
-    }
+
+plugins {
+    id 'com.gradle.plugin-publish' version '1.0.0'
 }
 
-apply plugin: 'com.gradle.plugin-publish'
-apply plugin: 'maven-publish'
 apply plugin: 'signing'
 apply plugin: 'groovy'
 
-group = 'com.github.maiflai'
-description = 'gradle-scalatest is a Gradle plugin for executing scalatest tests'
 ext {
-    websiteUrl = 'https://github.com/maiflai/gradle-scalatest'
-    sourceUrl = 'https://github.com/maiflai/gradle-scalatest.git'
+    websiteUrl = 'https://github.com/ysohda/gradle-scalatest'
+    sourceUrl = 'https://github.com/ysohda/gradle-scalatest.git'
 }
 
-targetCompatibility = '1.6'
+targetCompatibility = '1.8'
 
 repositories {
     mavenCentral()
@@ -45,55 +35,44 @@ task sourcesJar(type: Jar) {
 
 test.dependsOn(jar)
 
-artifacts {
-    archives groovydocJar
-    archives sourcesJar
-}
-
-if (project.version == 'unspecified') {
-    version = '0.1-SNAPSHOT'
+test {
+    testLogging.showStandardStreams = System.env.CI == 'true'
 }
 
 task showVersion() { doLast { println(project.version) } }
 
+group = 'io.github.ysohda.scalatest'
+description = 'gradle-scalatest is a Gradle plugin for executing scalatest tests'
+version '0.30.1'
+if (project.version == 'unspecified') {
+    version = '0.1-SNAPSHOT'
+}
 
-
-def propOrDefault(String property) {
-    if (project.hasProperty(property)) {
-        return project.getProperty(property)
-    } else {
-        return ''
+gradlePlugin {
+    plugins {
+        scalatestPlugin {
+            id = 'io.github.ysohda.scalatest'
+            displayName = 'Gradle ScalaTest plugin'
+            description = project.description
+            implementationClass = 'com.github.ysohda.ScalaTestPlugin'
+        }
     }
 }
 
 pluginBundle {
     website = project.websiteUrl
     vcsUrl = project.sourceUrl
-    description = project.description
     tags = ['testing', 'scala', 'scalatest']
-
-    plugins {
-        scalatestPlugin {
-            id = 'com.github.maiflai.scalatest'
-            displayName = 'Gradle ScalaTest plugin'
-        }
-    }
 }
 
 publishing {
-    repositories {
-        maven {
-            url = "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-            credentials(PasswordCredentials) {
-                username = propOrDefault('sonatypeUsername')
-                password = propOrDefault('sonatypePassword')
-            }
-        }
-    }
     publications {
         mavenJava(MavenPublication) {
+            groupId = 'io.github.ysohda'
+            artifactId = 'scalatest'
+            version = version
             pom {
-                name = project.name
+                name = 'com.github.ysohda.scalatest.gradle.plugin'
                 description = project.description
                 url = project.websiteUrl
                 scm {
@@ -112,8 +91,12 @@ publishing {
                     developer {
                         id = 'maiflai'
                     }
+                    developer {
+                        id = 'ysohda'
+                    }
                 }
             }
+            from components.java
         }
     }
 }
